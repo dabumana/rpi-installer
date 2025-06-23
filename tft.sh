@@ -49,8 +49,8 @@ cp usr/99-fbturbo.conf  /usr/share/X11/xorg.conf.d/
 sed -i 's/[[:blank:]]logo.nologo//' /boot/cmdline.txt
 sed -i 's/[[:blank:]]fbcon=[^[:blank:]]*//g' /boot/cmdline.txt
 
-echo "$(sed -n 1p /boot/cmdline.txt) fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo" > /boot/cmdline_new.txt
-mv /boot/cmdline_new.txt /boot/cmdline.txt
+echo "$(sed -n 1p /boot/cmdline.txt) fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo" > boot/cmdline_new.txt
+mv boot/cmdline_new.txt /boot/cmdline.txt
 
 G_CONFIG_INJECT 'dtoverlay=$DRIVER' 'dtoverlay=$DRIVER:rotate=90' /boot/config.txt
 G_CONFIG_INJECT 'dtparam=i2c_arm=' 'dtparam=i2c_arm=on' /boot/config.txt
