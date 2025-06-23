@@ -26,6 +26,10 @@ then
   exit
 fi
 
+apt-get update
+apt-get upgrade -y
+apt-get install wget apt-utils unzip xserver-xorg-input-evdev
+
 cd /tmp
 wget https://github.com/goodtft/LCD-show/archive/master.zip
 
@@ -33,6 +37,7 @@ unzip master.zip
 rm master.zip
 cd LCD-show-master
 
+mkdir /boot/overlays
 cp usr/"$DRIVER"-overlay.dtb /boot/overlays/
 mv usr/"$DRIVER"-overlay.dtb /boot/overlays/"$DRIVER".dtb
 
@@ -52,5 +57,3 @@ G_CONFIG_INJECT 'dtparam=i2c_arm=' 'dtparam=i2c_arm=on' /boot/config.txt
 G_CONFIG_INJECT 'dtparam=spi=' 'dtparam=spi=on' /boot/config.txt
 G_CONFIG_INJECT 'enable_uart=' 'enable_uart=1' /boot/config.txt
 G_CONFIG_INJECT 'hdmi_force_hotplug=' 'hdmi_force_hotplug=1' /boot/config.txt
-
-G_AGI xserver-xorg-input-evdev
