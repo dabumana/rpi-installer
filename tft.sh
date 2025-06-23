@@ -26,6 +26,12 @@ then
   exit
 fi
 
+PATHBOOT=$(ls /boot/overlays)
+if [ -z "$PATHBOOT" ]
+then
+   mkdir /boot/overlays
+fi
+
 apt-get update
 apt-get upgrade -y
 apt-get install wget apt-utils unzip xserver-xorg-input-evdev
@@ -37,7 +43,6 @@ unzip master.zip
 rm master.zip
 cd LCD-show-master
 
-mkdir /boot/overlays
 cp usr/"$DRIVER"-overlay.dtb /boot/overlays/
 mv usr/"$DRIVER"-overlay.dtb /boot/overlays/"$DRIVER".dtb
 
@@ -52,8 +57,10 @@ sed -i 's/[[:blank:]]fbcon=[^[:blank:]]*//g' /boot/cmdline.txt
 echo "$(sed -n 1p /boot/cmdline.txt) fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo" > boot/cmdline_new.txt
 mv boot/cmdline_new.txt /boot/cmdline.txt
 
-G_CONFIG_INJECT 'dtoverlay=$DRIVER' 'dtoverlay=$DRIVER:rotate=90' /boot/config.txt
-G_CONFIG_INJECT 'dtparam=i2c_arm=' 'dtparam=i2c_arm=on' /boot/config.txt
-G_CONFIG_INJECT 'dtparam=spi=' 'dtparam=spi=on' /boot/config.txt
-G_CONFIG_INJECT 'enable_uart=' 'enable_uart=1' /boot/config.txt
-G_CONFIG_INJECT 'hdmi_force_hotplug=' 'hdmi_force_hotplug=1' /boot/config.txt
+G_CONFIG_INJECT "dtoverlay=$DRIVER" "dtoverlay=$DRIVER:rotate=90" /boot/config.txt
+G_CONFIG_INJECT "dtparam=i2c_arm=" "dtparam=i2c_armxserver-xorg-input-evdev=on" /boot/config.txt
+G_CONFIG_INJECT "dtparam=spi=" "dtparam=spi=on" /boot/config.txt
+G_CONFIG_INJECT "enable_uart=" "enable_uart=1" /boot/config.txt
+G_CONFIG_INJECT "hdmi_force_hotplug=" "hdmi_force_hotplug=1" /boot/config.txt
+
+G_AGI xserver-xorg-input-evdev
